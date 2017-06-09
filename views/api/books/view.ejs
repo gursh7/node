@@ -1,0 +1,68 @@
+<% include ./top.ejs %>
+<style>
+	body {
+	padding-top: 100px;
+	padding-bottom: 40px;
+	}
+</style>
+
+	<div class="container">
+		<h3><%= title %></h3>
+
+		<form action="/api/mode" method="POST" class="form-horizontal">
+		<input type="hidden" name="mode" value="put">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<th>책이름</th>
+				<th>저자</th>
+				<th>출판일</th>
+			</tr>
+
+			<% if(mode == "find_book_id"){ %>
+
+				<% if(!user_id){ %>
+				<tr>
+					<td><%=book.title%></td>
+					<td><%=book.author%></td>
+					<td><%=mement(book.published_date).add(-9, 'hours').format('YYYY-MM-DD HH:mm:ss')%></td>
+				</tr>
+				<% }else{ %>
+				<tr>
+					<td><input type="text" name="title" class="form-control" placeholder ="책이름" required value="<%=book.title%>" ></td>
+					<td><input type="text" name="author" class="form-control" placeholder ="저자" required value="<%=book.author%>"></td>
+					<td><input type="text" name="published_date" id="published_date" class="form-control" placeholder ="출판일" required value="<%=mement(book.published_date).add(-9, 'hours').format('YYYY-MM-DD HH:mm:ss')%>"></td>
+				</tr>
+				<input type="hidden" name="book_id" value="<%=book.id%>">
+				<% } %>
+
+			<% }else if(mode == "find_author"){ %>
+
+				<% book.forEach(function(item){ %>
+				<tr>
+					<td><a href="/api/books/<%=item.id%>"><%=item.title%></a></td>
+					<td><a href="/api/books/author/<%=item.author%>"><%=item.author%></a></td>
+					<td><%=mement(item.published_date).add(-9, 'hours').format('YYYY-MM-DD HH:mm:ss') %></td>
+				</tr>
+				<% }) %>
+
+				<% if (book.length == 0){ %>
+				<tr><td colspan="3">저장된 데이터가 없습니다.</td></tr>
+				<% } %>
+
+			<% } %>
+		</table>
+
+	</div>
+	<div class="text-center">
+
+<% if(mode == "find_book_id" && user_id){ %>
+		<input type="submit" class="btn btn-warning" value="수정">
+<% } %>
+		<input type="button" class="btn btn-default" onclick="location.href='/api/books'" value="리스트로">
+
+
+	</div>
+	</form>
+
+</body>
+</html>

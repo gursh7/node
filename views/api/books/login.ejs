@@ -1,0 +1,70 @@
+<% include ./top.ejs %>
+
+<style>
+	body {
+	padding-top: 100px;
+	padding-bottom: 40px;
+	background-color: #eee;
+	}
+
+	.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+	margin-top: 100px;
+	}
+	.form-signin .form-signin-heading,
+	.form-signin .checkbox {
+	margin-bottom: 10px;
+	}
+	.form-signin .checkbox {
+	font-weight: normal;
+	}
+	.form-signin .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	 -moz-box-sizing: border-box;
+		  box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+	}
+	.form-signin .form-control:focus {
+	z-index: 2;
+	}
+	.form-signin-top-radius {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	}
+	.form-signin-bot-radius {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	}
+</style>
+
+	<body>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container"><div class="navbar-header"><a class="navbar-brand" href="/"><%= title %></a></div></div>
+		</nav>
+
+		<div class="container">
+
+			<% if(user_id){ %>
+				<h2>Welcome! <%= user_id %> (name: <%= name %>)</h2>
+				<button onclick="location.href='/logout'">로그아웃</button>
+			<% }else{ %>
+				<form method="post" action="login" class="form-signin">
+					<h2 class="form-signin-heading">로그인</h2>
+
+					<input type="text" name="user_id" class="form-control form-signin-top-radius" placeholder="아이디" required="" autofocus="">
+					<input type="password" name="password" class="form-control form-signin-bot-radius" placeholder="비밀번호" required="">
+					<!-- <div class="checkbox"><label><input type="checkbox" value="remember-me"> Remember me</label></div> -->
+					<button class="btn btn-lg btn-primary btn-block" type="submit">로그인</button>
+				</form>
+			<% } %>
+
+		</div>
+	</body>
+</html>
