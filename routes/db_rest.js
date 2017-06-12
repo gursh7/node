@@ -157,7 +157,8 @@ module.exports = function(app, Book, User ,mement)
 
 
 //웹으로는 put을 요청 할 수 없기때문에 hidden 을 post로 받아서 put으로 넘겨준다.
-	app.post('/api/mode', function(req, res, next){
+	app.post('/api/mode', function(req, res){
+		//웹으로는 put을 요청 할 수 없기때문에 hidden 을 post로 받아서 put으로 넘겨준다.
 		if(req.body.mode == "put"){
 			Book.findById(req.body.book_id, function(err, book){
 
@@ -172,6 +173,12 @@ module.exports = function(app, Book, User ,mement)
 					if(err) res.status(500).json({error: 'failed to update'});
 					res.redirect('/api/books');
 				});
+			});
+		}else if(req.body.mode == "delete"){
+		//웹으로는 delete를 요청 할 수 없기때문에 hidden 을 post로 받아서 delete으로 넘겨준다.
+			Book.remove({ _id: req.body.book_id }, function(err, output){
+				if(err) return res.status(500).json({ error: "database failure" });
+				res.redirect('/api/books');
 			});
 		}
 	});
